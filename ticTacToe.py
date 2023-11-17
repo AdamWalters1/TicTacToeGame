@@ -75,34 +75,42 @@ def tic_tac_toe():
     opponent_name = input("Enter opponent name: ")
     difficulty = input("Choose difficulty (easy, medium, hard): ")
 
-    current_player = 'X'
-
     while True:
         print_board(board)
 
-        if current_player == 'X':
-            row = int(input("Enter row (0, 1, or 2): "))
-            col = int(input("Enter column (0, 1, or 2): "))
-        else:
-            print(f"{opponent_name}'s turn:")
-            row, col = get_opponent_move(board, difficulty)
+        # Player's turn
+        row = int(input("Enter row (0, 1, or 2): "))
+        col = int(input("Enter column (0, 1, or 2): "))
 
         if board[row][col] == ' ':
-            board[row][col] = current_player
+            board[row][col] = 'X'
 
-            if check_winner(board, current_player):
+            if check_winner(board, 'X'):
                 print_board(board)
-                if current_player == 'X':
-                    print(f"{player_name} wins!")
-                else:
-                    print(f"{opponent_name} wins!")
+                print(f"{player_name} wins!")
                 break
             elif is_board_full(board):
                 print_board(board)
                 print("It's a tie!")
                 break
 
-            current_player = 'O' if current_player == 'X' else 'X'
+            # Opponent's turn
+            print(f"{opponent_name}'s turn:")
+            row, col = get_opponent_move(board, difficulty)
+
+            if board[row][col] == ' ':
+                board[row][col] = 'O'
+
+                if check_winner(board, 'O'):
+                    print_board(board)
+                    print(f"{opponent_name} wins!")
+                    break
+                elif is_board_full(board):
+                    print_board(board)
+                    print("It's a tie!")
+                    break
+            else:
+                print("Cell already taken. Try again.")
         else:
             print("Cell already taken. Try again.")
 
